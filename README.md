@@ -1,2 +1,2 @@
-# tenebix
-### 10th Nust Hackathon
+# Online Solutions for Education
+### Create a basic structure for developing better apps
