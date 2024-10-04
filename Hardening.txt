@@ -1,0 +1,149 @@
+#### Windows server 2012 Patching Stages  | That as well applies to clients machines
+
+	- Check and write down our own ip addresses to be used when white listing
+	
+       (WHITE LISTING ON REMOTE IP ADDRESS)
+
+	- Blocking ICMP
+		- all ICMP services especially the one with remote ???
+
+Steps to Whitelist IP Addresses for ICMP
+Open Windows Firewall with Advanced Security:
+
+Press Windows + R, type wf.msc, and press Enter.
+Create a New Inbound Rule:
+
+In the left pane, click on Inbound Rules.
+In the right pane, click on New Rule.
+Select Rule Type:
+
+Choose Custom and click Next.
+Select Program:
+
+Choose All programs and click Next.
+Select Protocol and Ports:
+
+For Protocol type, select ICMPv4 (or ICMPv6 if applicable).
+Click Next.
+Specify ICMP Types:
+
+Click on Specific ICMP types and select Echo Request (this is used for ping requests).
+Click Next.
+Scope:
+
+Under Which remote IP addresses does this rule apply to?, select These IP addresses.
+Click Add and enter the IP addresses you want to whitelist (e.g., 192.168.1.10).
+You can add multiple IPs by clicking Add for each one.
+Click OK and then Next.
+Action:
+
+Select Allow the connection and click Next.
+Profile:
+
+Choose the profiles to which this rule applies (Domain, Private, Public). Typically, you would select all relevant profiles.
+Click Next.
+Name the Rule:
+
+Provide a name (e.g., "Allow ICMP from Whitelisted IPs") and an optional description for clarity.
+Click Finish.
+Additional Steps to Block All Other ICMP Traffic
+To ensure that only the whitelisted IPs can access ICMP functions, you should block ICMP traffic from all other IP addresses.
+
+Create a New Inbound Rule to Block ICMP:
+
+In the left pane, click on Inbound Rules.
+In the right pane, click on New Rule.
+Select Rule Type:
+
+Choose Custom and click Next.
+Select Program:
+
+Choose All programs and click Next.
+Select Protocol and Ports:
+
+For Protocol type, select ICMPv4 (or ICMPv6).
+Click Next.
+Specify ICMP Types:
+
+Click on Specific ICMP types and select Echo Request.
+Click Next.
+Scope:
+
+Under Which remote IP addresses does this rule apply to?, select Any IP address.
+Click Next.
+Action:
+
+Select Block the connection and click Next.
+Profile:
+
+Choose the profiles to which this rule applies (Domain, Private, Public).
+Click Next.
+Name the Rule:
+
+Provide a name (e.g., "Block All Other ICMP") and an optional description.
+Click Finish.
+Verification
+Test the Configuration:
+Use the ping command from both a whitelisted IP and a non-whitelisted IP to verify:
+From a whitelisted IP:
+bash
+Copy code
+ping [ServerIPAddress]
+You should receive responses.
+From a non-whitelisted IP:
+bash
+Copy code
+ping [ServerIPAddress]
+You should receive "Request timed out" or no response.
+		- 
+	- Blocking and white listing port 445 smb, 443, 21 ftp, 80 http, 389 ldap, 3389(rdp remote desktop), 22, 8080, 25
+		- first by blocking all the services running then white listing if there are given ip addresses and our own machines
+		
+	- Pushing the updates(finding a way to get the updates at once) like twice
+		- to update we go on local server and then navigate to windows update-----
+		
+	- Launch wireshark (block the ip that is sending packets or appearing the most)
+	
+	- launch evillimiter
+		*COMMANDS*
+			- scan (--range [IP Range]) TO SCAN THE IP Range
+			- --force FORCES THE TABLE TO BE SHOWN
+			- limit [ID1,ID2,...] [Rate] (--upload) (--download) LIMITS THE BANDWITH (e.g limit 4,5,6 200kbit or limit all 1gbit )
+			- block [ID1,ID2,...]  BLOCK HOSTS IPS SPECIFIED WITH IDs
+			- free [ID1,ID2,...] UNBLOCK/FREE HOSTS IPs
+			
+	- Configure IIS firewall ?
+		- should require ssl
+		
+	- Disable NetBIOS over TCP/IP ?
+	
+		1. Open Network and Sharing Center > Change Adapter Settings
+		
+		2. Right-Click on your network adapter and go to properties
+		
+		3. Select Internet Protocol Version 4 (TCP/IPv4) and Click Properties
+		
+	- Disable SMBv1 ?
+		- Set-SmbServerConfiguration -EnableSMB1Protocol $false
+		
+##### Hardening Wordpress website
+	> Add plugins
+		- url rename -- wp hide and security center
+		- wps hide login
+		
+		
+	> Word fence ( activate)
+		-
+		
+		
+		
+	> Prowebber.club for premium licences Plugins
+	
+	
+	
+	
+	
+	
+	192.168.178.183
+	
+	
